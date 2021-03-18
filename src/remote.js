@@ -9,7 +9,7 @@ class RemoteManager {
 
 		this.port = port;
 
-		this.whatsapp = new TheBotCore(false, command_manager);;
+		this.whatsapp = new TheBotCore(command_manager);;
 
 		this.app.get('/', (req, res) => {
 			res.sendFile(__dirname + "/index.html");

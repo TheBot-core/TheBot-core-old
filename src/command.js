@@ -117,9 +117,9 @@ class CommandManager {
 						const crash_id = dump(error, this.commands);
 
 						try {
-							await command_event_info.whatsapp.send_message_current_chat(big("OMG something terrible happend D:") + "\n" + typewriter("The crash id is " + crash_id));
+							await command_event_info.whatsapp.send_message_current_chat(big("OMG something terrible happend D:") + "\n" + typewriter("The crash id is " + crash_id) + "\n" + italic(error));
 							await command_event_info.whatsapp.select_chat("Idle");
-							await command_event_info.whatsapp.send_message_current_chat(big("OMG something terrible happend D:") + "\n" + typewriter("The crash id is " + crash_id));
+							await command_event_info.whatsapp.send_message_current_chat(big("OMG something terrible happend D:") + "\n" + typewriter("The crash id is " + crash_id) + "\n" + italic(error));
 						} catch (error) {
 							dump(error, {
 								followup_error: crash_id

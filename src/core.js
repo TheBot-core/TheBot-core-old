@@ -3,7 +3,7 @@ const { log } = require("./logger");
 const { sleep } = require('./util');
 
 class TheBotCore {
-	constructor(start_screen, command_manager) {
+	constructor(command_manager) {
 
 		this.command_manager = command_manager;
 
@@ -30,12 +30,6 @@ class TheBotCore {
 				await this.browser.close();
 				process.exit(0);
 			});
-
-			if(start_screen) {
-				setInterval(async () => {
-					await this.page.screenshot({ path: "out.png" });
-				}, 100);
-			}
 
 			while(!(await this.select_chat("Idle"))) {
 				log("Wait for idle!");
