@@ -3,7 +3,7 @@ const { RemoteManager } = require("./remote");
 const fs = require("fs");
 const { tag, type, typewriter } = require("./style");
 const fetch = require('node-fetch');
-const { has_perm } = require("./role_manager");
+const { has_perm, get_role } = require("./role_manager");
 
 var command_manager = new CommandManager("#");
 
@@ -55,6 +55,15 @@ command_manager.add_command("crash", "Crash the bot!", async (event) => {
 
 			throw new Error("D:");
 		}
+	}
+});
+
+
+command_manager.add_command("whois", "Get information about yourself!", async (event) => {
+	if(event.args.length != 0) {
+		await event.command_fail();
+	} else {
+		await event.send_message("User: " + event.event.user + ", Role: " + get_role(event.event.user) + "!");
 	}
 });
 
