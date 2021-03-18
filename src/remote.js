@@ -1,6 +1,5 @@
 const express = require('express');
 const { TheBotCore } = require("./core");
-const fs = require("fs");
 const { log } = require('./logger');
 
 class RemoteManager {

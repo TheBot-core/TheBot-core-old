@@ -1,7 +1,7 @@
 const { dump } = require("./crash");
 const { log } = require("./logger");
+const { get_role } = require("./role_manager");
 const { big, italic, typewriter } = require("./style");
-const { sleep } = require("./util");
 
 class CommandEvent {
 
@@ -80,7 +80,7 @@ class CommandManager {
 						var tmp_msg = "";
 		
 						tmp_msg += ">> " + big(element.command) + "\n";
-						tmp_msg += "     " + typewriter(element.help) + "\n\n";
+						tmp_msg += "      " + typewriter(element.help) + "\n\n";
 
 						help_msg += tmp_msg;
 					});
@@ -114,7 +114,13 @@ class CommandManager {
 					try {
 						await this.commands[cmd].executor(command_event);	
 					} catch (error) {
-						const crash_id = dump(error, this.commands);
+						const crash_id = dump(error, {
+							user: command_event_info.user,
+							role: get_role(command_event_info.user),
+							message: command_event.message,
+							command: command_event.command,
+							args: command_event.args
+						});
 
 						try {
 							await command_event_info.whatsapp.send_message_current_chat(big("OMG something terrible happend D:") + "\n" + typewriter("The crash id is " + crash_id) + "\n" + italic(error));
@@ -126,8 +132,10 @@ class CommandManager {
 							});
 						}
 					}
+					return true;
 				}
 			}
+			return false;
 		}
 	}
 }

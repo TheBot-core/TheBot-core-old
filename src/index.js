@@ -1,9 +1,9 @@
-const { CommandEvent, CommandManager } = require("./command");
+const { CommandManager } = require("./command");
 const { RemoteManager } = require("./remote");
-const { tag, type } = require("./style");
+const fs = require("fs");
+const { tag, type, typewriter } = require("./style");
 const fetch = require('node-fetch');
-const { has_perm, get_role, set_role } = require("./role_manager");
-const { log } = require("./logger");
+const { has_perm } = require("./role_manager");
 
 var command_manager = new CommandManager("#");
 
@@ -58,5 +58,20 @@ command_manager.add_command("crash", "Crash the bot!", async (event) => {
 	}
 });
 
+
+command_manager.add_command("crash->info", "Get information's from a crash!", async (event) => {
+	if(event.args.length != 1) {
+		await event.command_fail();
+	} else {
+
+		if(!has_perm("crash", event.event.user)) {
+			await event.perm_fail();
+		} else {
+			const crash = JSON.parse(fs.readFileSync("./crash/" + event.args[0] + ".json"));
+
+			await event.send_message(typewriter(crash.stack));
+		}
+	}
+});
 
 new RemoteManager(8080, command_manager);
