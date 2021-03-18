@@ -2,6 +2,8 @@ const { CommandEvent, CommandManager } = require("./command");
 const { RemoteManager } = require("./remote");
 const { tag, type } = require("./style");
 const fetch = require('node-fetch');
+const { has_perm, get_role, set_role } = require("./role_manager");
+const { log } = require("./logger");
 
 var command_manager = new CommandManager("#");
 
@@ -46,7 +48,13 @@ command_manager.add_command("crash", "Crash the bot!", async (event) => {
 	if(event.args.length != 0) {
 		await event.command_fail();
 	} else {
-		no();
+
+		if(!has_perm("crash", event.event.user)) {
+			await event.perm_fail();
+		} else {
+
+			throw new Error("D:");
+		}
 	}
 });
 
