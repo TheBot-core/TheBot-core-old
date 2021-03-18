@@ -2,3 +2,5 @@ node_modules
 chrome
 crash
 *.png
+
+users.json
